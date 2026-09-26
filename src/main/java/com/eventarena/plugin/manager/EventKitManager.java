@@ -89,8 +89,11 @@ public class EventKitManager {
                 Object enchantsObj = raw.get("enchants");
                 if (enchantsObj instanceof Map<?, ?> enchantMap) {
                     for (Map.Entry<?, ?> entry : enchantMap.entrySet()) {
-                        Enchantment enchant = Enchantment.getByName(String.valueOf(entry.getKey()));
-                        if (enchant == null) continue;
+                        Enchantment enchant = resolveEnchant(String.valueOf(entry.getKey()));
+                        if (enchant == null) {
+                            plugin.getLogger().warning("Unknown enchant in kits.yml: " + entry.getKey());
+                            continue;
+                        }
                         int level = ((Number) entry.getValue()).intValue();
                         stack.addUnsafeEnchantment(enchant, level);
                     }
@@ -112,5 +115,19 @@ public class EventKitManager {
         Material material = Material.matchMaterial(materialName);
         if (material == null) return null;
         return new ItemStack(material);
+    }
+
+    /**
+     * Modern Paper (1.20.5+/1.21) moved Enchantment to a Registry-backed keyed
+     * interface. The old Enchantment.getByName(String) lookup is deprecated
+     * and unreliable for vanilla-style keys (e.g. "SHARPNESS", "DENSITY"), so
+     * we resolve via the registry using the vanilla namespaced key instead -
+     * this is the approach that actually works across 1.21+.
+     */
+    private Enchantment resolveEnchant(String configName) {
+        if (configName == null || configName.isBlank()) return null;
+        String key = configName.trim().toLowerCase(java.util.Locale.ROOT);
+        org.bukkit.NamespacedKey namespacedKey = org.bukkit.NamespacedKey.minecraft(key);
+        return org.bukkit.Registry.ENCHANTMENT.get(namespacedKey);
     }
 }

@@ -159,8 +159,8 @@ public class EventManager {
         player.getInventory().clear();
         if (data.getPreJoinInventory() != null) player.getInventory().setContents(data.getPreJoinInventory());
         if (data.getPreJoinArmor() != null) player.getInventory().setArmorContents(data.getPreJoinArmor());
-        double maxHealth = player.getAttribute(org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH) != null
-                ? player.getAttribute(org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH).getValue() : 20.0;
+        double maxHealth = player.getAttribute(org.bukkit.attribute.Attribute.MAX_HEALTH) != null
+                ? player.getAttribute(org.bukkit.attribute.Attribute.MAX_HEALTH).getValue() : 20.0;
         player.setHealth(Math.min(data.getPreJoinHealth() > 0 ? data.getPreJoinHealth() : maxHealth, maxHealth));
         player.setFoodLevel(data.getPreJoinFood() > 0 ? data.getPreJoinFood() : 20);
         player.setFireTicks(0);

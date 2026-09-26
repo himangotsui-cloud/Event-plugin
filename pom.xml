@@ -14,10 +14,11 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--
-          We compile against Paper API 1.20.4. Paper's public API is intentionally
+          We compile against Paper API 1.21.4 (needed for Material.MACE and
+          EntityType.FIREWORK_ROCKET, both added in 1.21). Paper's public API is intentionally
           backward/forward compatible across minor versions (Bukkit/Paper do not
           remove the standard API methods this plugin uses), so a jar built against
-          1.20.4 API will run correctly on newer Paper versions as long as
+          1.21.4 API will run correctly on newer Paper versions as long as
           plugin.yml's api-version is left broad. No NMS / version-specific
           reflection is used anywhere in this project - see README "Version
           Compatibility" section for details and the one documented exception

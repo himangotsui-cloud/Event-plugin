@@ -8,7 +8,7 @@ detection, and a revive system.
 
 - Java 17+
 - Maven 3.8+
-- A Paper server, 1.20.4 or newer (see "Version compatibility" below)
+- A Paper server, 1.21 or newer (the Mace kit item requires 1.21+; see "Version compatibility" below)
 
 ## Building
 
