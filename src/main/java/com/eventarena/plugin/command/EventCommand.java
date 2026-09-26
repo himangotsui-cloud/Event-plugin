@@ -29,7 +29,7 @@ public class EventCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            showStatus(sender);
+            handleBareCommand(sender);
             return true;
         }
 
@@ -45,6 +45,23 @@ public class EventCommand implements CommandExecutor, TabCompleter {
             default -> sender.sendMessage(ColorUtil.legacy("&cUnknown subcommand. /event [make|announce|join|leave|start|stop|status]"));
         }
         return true;
+    }
+
+    /**
+     * Bare "/event" with no arguments: if there's a joinable event and you're
+     * not in it yet, this just joins you - no need to type "/event join".
+     * Otherwise it falls back to showing status.
+     */
+    private void handleBareCommand(CommandSender sender) {
+        EventManager em = plugin.eventManager();
+        if (sender instanceof Player player
+                && em.hasEvent()
+                && !em.isParticipant(player.getUniqueId())
+                && em.state() == com.eventarena.plugin.state.EventState.WAITING) {
+            handleJoin(sender);
+            return;
+        }
+        showStatus(sender);
     }
 
     private void handleMake(CommandSender sender) {
@@ -73,9 +90,25 @@ public class EventCommand implements CommandExecutor, TabCompleter {
             return;
         }
         String message = String.join(" ", java.util.Arrays.copyOfRange(args, 1, args.length));
-        String format = plugin.configManager().config().getString("announce.format", "&c[EVENT] %message%");
-        plugin.getServer().broadcastMessage(ColorUtil.legacy(
-                ColorUtil.placeholders(format, "%message%", message)));
+
+        String titleText = plugin.configManager().config().getString("announce.title", "&c&lEVENT");
+        int fadeIn = plugin.configManager().config().getInt("announce.fade-in-ticks", 10);
+        int stay = plugin.configManager().config().getInt("announce.stay-ticks", 70);
+        int fadeOut = plugin.configManager().config().getInt("announce.fade-out-ticks", 20);
+
+        net.kyori.adventure.text.Component title = ColorUtil.component(titleText);
+        net.kyori.adventure.text.Component subtitle = ColorUtil.component(message);
+        net.kyori.adventure.title.Title.Times times = net.kyori.adventure.title.Title.Times.times(
+                java.time.Duration.ofMillis(fadeIn * 50L),
+                java.time.Duration.ofMillis(stay * 50L),
+                java.time.Duration.ofMillis(fadeOut * 50L)
+        );
+        net.kyori.adventure.title.Title adventureTitle = net.kyori.adventure.title.Title.title(title, subtitle, times);
+
+        for (Player p : plugin.getServer().getOnlinePlayers()) {
+            p.showTitle(adventureTitle);
+        }
+        sender.sendMessage(ColorUtil.legacy("&aAnnouncement sent."));
     }
 
     private void handleJoin(CommandSender sender) {
@@ -114,6 +147,14 @@ public class EventCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(plugin.configManager().msg("no-permission"));
             return;
         }
+        if (!plugin.eventManager().hasEvent()) {
+            sender.sendMessage(plugin.configManager().msg("event-not-created"));
+            return;
+        }
+        if (!plugin.eventManager().isCallerInEventWorld(sender)) {
+            sender.sendMessage(plugin.configManager().msg("must-be-in-event"));
+            return;
+        }
         EventManager.StartResult result = plugin.eventManager().startEvent();
         switch (result) {
             case STARTING -> sender.sendMessage(ColorUtil.legacy("&aEvent starting..."));
@@ -131,6 +172,10 @@ public class EventCommand implements CommandExecutor, TabCompleter {
         }
         if (!plugin.eventManager().hasEvent()) {
             sender.sendMessage(plugin.configManager().msg("event-not-created"));
+            return;
+        }
+        if (!plugin.eventManager().isCallerInEventWorld(sender)) {
+            sender.sendMessage(plugin.configManager().msg("must-be-in-event"));
             return;
         }
         plugin.eventManager().stopEvent("event-stopped");

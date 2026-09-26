@@ -26,6 +26,10 @@ public class ReviveCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(plugin.configManager().msg("no-permission"));
             return true;
         }
+        if (!plugin.eventManager().isCallerInEventWorld(sender)) {
+            sender.sendMessage(plugin.configManager().msg("must-be-in-event"));
+            return true;
+        }
         if (args.length != 1) {
             sender.sendMessage(ColorUtil.legacy("&cUsage: /revive <all|player>"));
             return true;

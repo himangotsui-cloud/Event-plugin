@@ -26,7 +26,7 @@ public final class EventGui {
             inv.setItem(i, filler);
         }
 
-        int[] slots = {11, 13, 15, 20};
+        int[] slots = {11, 13, 15, 20, 24};
         EventMode[] modes = EventMode.values();
         for (int i = 0; i < modes.length && i < slots.length; i++) {
             EventMode mode = modes[i];
@@ -57,6 +57,7 @@ public final class EventGui {
             case 13 -> EventMode.MACE_PVP;
             case 15 -> EventMode.SWORD_PVP;
             case 20 -> EventMode.AXE_PVP;
+            case 24 -> EventMode.BOW_PVP;
             default -> null;
         };
     }

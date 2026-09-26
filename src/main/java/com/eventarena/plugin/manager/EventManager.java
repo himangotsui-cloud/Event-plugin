@@ -53,7 +53,7 @@ public class EventManager {
     }
 
     public int minPlayers() {
-        return plugin.configManager().config().getInt("event.min-players", 2);
+        return plugin.configManager().config().getInt("event.min-players", 1);
     }
 
     public int activeCount() {
@@ -427,6 +427,19 @@ public class EventManager {
 
     public Map<UUID, EventPlayerData> participantsView() {
         return participants;
+    }
+
+    /**
+     * Console always passes. A player passes only if they're physically
+     * standing in the event world - this is what makes /border, /drop,
+     * /event start, /event stop and /revive "only work while you're in
+     * the event" as requested, without blocking /event join or /event
+     * leave (which are how you get in and out in the first place).
+     */
+    public boolean isCallerInEventWorld(org.bukkit.command.CommandSender sender) {
+        if (!(sender instanceof Player player)) return true;
+        World world = plugin.worldManager().getEventWorld();
+        return world != null && player.getWorld().equals(world);
     }
 
     public enum JoinResult {SUCCESS, NO_EVENT, ALREADY_JOINED, FULL, ALREADY_STARTED}

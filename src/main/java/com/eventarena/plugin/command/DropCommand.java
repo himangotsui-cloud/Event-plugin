@@ -20,6 +20,10 @@ public class DropCommand implements CommandExecutor {
             sender.sendMessage(plugin.configManager().msg("no-permission"));
             return true;
         }
+        if (!plugin.eventManager().isCallerInEventWorld(sender)) {
+            sender.sendMessage(plugin.configManager().msg("must-be-in-event"));
+            return true;
+        }
         if (plugin.worldManager().isDropInProgress()) {
             sender.sendMessage(ColorUtil.legacy("&eA drop is already in progress."));
             return true;

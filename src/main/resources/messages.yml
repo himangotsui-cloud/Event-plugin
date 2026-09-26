@@ -20,6 +20,8 @@ starting-countdown: "&eEvent starting in &c%seconds% &eseconds..."
 event-started: "&a&lThe event has started! Fight!"
 event-stopped: "&cThe event has been stopped by an administrator."
 
+must-be-in-event: "&cYou must be inside the event to use this command. Join it first with /event."
+
 eliminated: "&cYou have been eliminated! You are now spectating."
 eliminated-broadcast: "&7%player% &chas been eliminated. &7(%remaining% remaining)"
 winner-broadcast: "&6&l[EVENT] &e%player% &6has won the %mode% Event!"

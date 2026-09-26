@@ -24,6 +24,11 @@ public enum EventMode {
             "&c&lAxe PvP",
             Material.DIAMOND_AXE,
             List.of("&7Axe combat", "&7Heavy-hitting PvP", "&7Event arena", "", "&eClick to select")
+    ),
+    BOW_PVP(
+            "&a&lBow PvP",
+            Material.BOW,
+            List.of("&7Ranged combat", "&7Bow & arrow only", "&7Event arena", "", "&eClick to select")
     );
 
     private final String displayName;

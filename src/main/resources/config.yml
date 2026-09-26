@@ -16,7 +16,7 @@ border:
   max-size: 400
 
 event:
-  min-players: 2
+  min-players: 1
   max-players: 50
   countdown-seconds: 15
   allow-block-place: false
@@ -33,7 +33,10 @@ victory:
   message: "&6&l[EVENT] &e%player% &6has won the %mode% Event!"
 
 announce:
-  format: "&8[&c&lEVENT&8] &f%message%"
+  title: "&c&lEVENT"
+  fade-in-ticks: 10
+  stay-ticks: 70
+  fade-out-ticks: 20
 
 messages-file: messages.yml
 kits-file: kits.yml
