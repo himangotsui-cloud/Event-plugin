@@ -1,9 +1,6 @@
 package com.eventarena.plugin;
 
-import com.eventarena.plugin.command.BorderCommand;
-import com.eventarena.plugin.command.DropCommand;
 import com.eventarena.plugin.command.EventCommand;
-import com.eventarena.plugin.command.ReviveCommand;
 import com.eventarena.plugin.gui.EventGuiListener;
 import com.eventarena.plugin.listener.EventListener;
 import com.eventarena.plugin.manager.ConfigManager;
@@ -38,13 +35,9 @@ public class EventArenaPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
         getServer().getPluginManager().registerEvents(new EventGuiListener(this), this);
 
-        getCommand("event").setExecutor(new EventCommand(this));
-        getCommand("event").setTabCompleter(new EventCommand(this));
-        getCommand("border").setExecutor(new BorderCommand(this));
-        getCommand("drop").setExecutor(new DropCommand(this));
-        var revive = new ReviveCommand(this);
-        getCommand("revive").setExecutor(revive);
-        getCommand("revive").setTabCompleter(revive);
+        var eventCommand = new EventCommand(this);
+        getCommand("event").setExecutor(eventCommand);
+        getCommand("event").setTabCompleter(eventCommand);
 
         // Restart-safety: if the server stopped mid-event, don't try to resume
         // combat state we can't trust - just make sure nothing is left dangling.

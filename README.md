@@ -44,10 +44,10 @@ On first enable the plugin creates `plugins/EventArena/` with `config.yml`, `mes
 | `/event start` | Start the countdown | `event.make` |
 | `/event stop` | Force-stop and reset | `event.make` |
 | `/event status` | Same as bare `/event` | `event.use` |
-| `/border <size>` | Change playable border | `event.border` |
-| `/drop` | Clear the arena down to bedrock | `event.drop` |
-| `/revive all` | Revive every eliminated player | `event.revive` |
-| `/revive <player>` | Revive one player | `event.revive` |
+| `/event border <size>` | Change playable border | `event.border` |
+| `/event drop` | Clear the arena down to bedrock | `event.drop` |
+| `/event revive all` | Revive every eliminated player | `event.revive` |
+| `/event revive <player>` | Revive one player | `event.revive` |
 
 `event.admin` grants all of the above. All commands tab-complete.
 

@@ -8,20 +8,8 @@ description: PvP event / arena plugin with Crystal, Mace, Sword and Axe modes.
 commands:
   event:
     description: Main event command
-    usage: /event [make|announce|join|leave|start|stop|status]
+    usage: /event [make|announce|join|leave|start|stop|status|border|drop|revive]
     permission: event.use
-  border:
-    description: Set the event playable border size
-    usage: /border <size>
-    permission: event.border
-  drop:
-    description: Clear the event arena down to the bedrock floor
-    usage: /drop
-    permission: event.drop
-  revive:
-    description: Revive an eliminated player
-    usage: /revive <all|player>
-    permission: event.revive
 
 permissions:
   event.admin:

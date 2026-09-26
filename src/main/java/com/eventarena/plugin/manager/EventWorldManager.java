@@ -46,10 +46,9 @@ public class EventWorldManager {
         WorldCreator creator = new WorldCreator(worldName);
         creator.type(WorldType.FLAT);
         creator.generateStructures(false);
-        // Vanilla superflat preset: a single bedrock layer, nothing else.
-        // This is standard, stable, documented Paper/Bukkit API (WorldCreator#generatorSettings)
-        // and works across modern Paper versions without any NMS.
-        creator.generatorSettings("{\"layers\":[{\"block\":\"minecraft:bedrock\",\"height\":1}],\"biome\":\"minecraft:plains\"}");
+        // Custom generator guarantees pure void + a single bedrock floor - see
+        // VoidBedrockGenerator for why this replaced the vanilla flat-preset JSON string.
+        creator.generator(new VoidBedrockGenerator());
 
         eventWorld = creator.createWorld();
         if (eventWorld != null) {
