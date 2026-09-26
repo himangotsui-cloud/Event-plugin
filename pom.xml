@@ -23,7 +23,7 @@
           Compatibility" section for details and the one documented exception
           (flat-world generator settings string).
         -->
-        <paper.api.version>1.20.4-R0.1-SNAPSHOT</paper.api.version>
+        <paper.api.version>1.21.4-R0.1-SNAPSHOT</paper.api.version>
     </properties>
 
     <repositories>
